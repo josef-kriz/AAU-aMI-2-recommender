@@ -18,23 +18,26 @@ def create_graph(movie_dict, ratings_path, n):
         if i == n + 1:
             break
         i = i + 1
+        event = 'Event - ' + str(i)
         user = 'User - ' + row[0]
         movie = movie_dict[int(row[1])]
-        movie_label = 'Movie - #' + str(movie.id) + ' ' + movie.name
         rating = 'Rating - ' + row[2]
         day_phase = 'Day phase - ' + get_day_phase(int(row[3]))
 
+        G.add_node(event, type='event')
         G.add_node(user, type='user')
-        G.add_node(movie_label, type='item')
+        G.add_node(movie.label, type='item')
         for genre in movie_dict[int(row[1])].genres:
             G.add_node('Genre - ' + genre, type='genre')
-            G.add_edge(movie_label, genre)
+            G.add_edge(movie.label, 'Genre - ' + genre)
+            G.add_edge(event, 'Genre - ' + genre)
         G.add_node(rating, type='rating')
         G.add_node(day_phase, type='time')
 
-        G.add_edge(user, rating)
-        G.add_edge(movie_label, rating)
-        G.add_edge(rating, day_phase)
+        G.add_edge(event, user)
+        G.add_edge(event, day_phase)
+        G.add_edge(event, rating)
+        G.add_edge(event, movie.label)
 
     return G
 
