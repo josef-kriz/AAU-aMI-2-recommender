@@ -3,7 +3,8 @@ import networkx as net
 from .movie import Movie
 from datetime import datetime
 
-
+# create graph based on user ratings
+# adds nodes and edges between them
 def create_graph(movie_dict, ratings_path, n):
     file = open(ratings_path, 'r')
     ratings_reader = csv.reader(file, delimiter=',')
@@ -27,6 +28,8 @@ def create_graph(movie_dict, ratings_path, n):
         G.add_node(event, type='event')
         G.add_node(user, type='user')
         G.add_node(movie.label, type='item')
+        # for each genre of the movie add edge from movie to genre and from event to genre
+        # event to genre because we want to emphasize genre importance
         for genre in movie_dict[int(row[1])].genres:
             G.add_node('Genre - ' + genre, type='genre')
             G.add_edge(movie.label, 'Genre - ' + genre)
@@ -41,11 +44,12 @@ def create_graph(movie_dict, ratings_path, n):
 
     return G
 
-
+# parse movies from a .csv file
 def read_movies(movies_path):
     file = open(movies_path, 'r')
     movie_reader = csv.reader(file, delimiter=',')
 
+    # skip header
     next(movie_reader)
 
     movies = dict()
