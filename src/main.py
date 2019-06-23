@@ -1,6 +1,7 @@
 import csv as csv
 import networkx as net
 import matplotlib.pyplot as plt
+from src.aggregate import aggregate
 from src.parser import read_movies, create_graph
 
 # NOTES:
@@ -18,6 +19,7 @@ from src.parser import read_movies, create_graph
 # LIMITATIONS:
 # - scalability - usually huge graphs
 # - we did not implement aggregation technique in general, instead we have hardcoded aggregation of user and day part
+# - we did not implement aggregation techniques, instead we did the aggregation while creating graph
 # - we add edge from event to genre to increase genre importance, other way would be adding weights to different factors
 
 # AGGREGATION:
@@ -33,12 +35,14 @@ def get_top_k_movies(k, recommendations):
             print(node)
             cnt = cnt + 1
 
+
 movies = read_movies('data/movies.csv')
-graph = create_graph(movies, 'data/ratings.csv', 1000000000)
+graph = create_graph(movies, 'data/ratings.csv', 10000000000)
+
+graph = aggregate(graph)
 
 # net.draw(graph, pos=net.spring_layout(graph), with_labels=True)
 # plt.show()
-
 preferences = {
     movies[1].label: 1,
     movies[2].label: 1
