@@ -37,9 +37,9 @@ def get_top_k_movies(k, recommendations):
 
 
 movies = read_movies('data/movies.csv')
-graph = create_graph(movies, 'data/ratings.csv', 10000000000)
+graph = create_graph(movies, 'data/ratings.csv', 10000)
 
-graph = aggregate(graph)
+# graph = aggregate(graph)
 
 # net.draw(graph, pos=net.spring_layout(graph), with_labels=True)
 # plt.show()
