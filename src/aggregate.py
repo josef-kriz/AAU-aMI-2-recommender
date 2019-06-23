@@ -12,10 +12,12 @@ def aggregate(graph):
         if type != 'genre':
             continue
         genre = node
+        G.add_node(genre, type='genre')
         genre_movies = graph[genre]
         for movie in genre_movies.keys():
             if graph.nodes[movie]['type'] == 'item':
-                G.add_node(movie + ' ' + genre, type='movie-genre')
+                G.add_node(movie, type='item')
+                G.add_edge(genre, movie)
 
     for event, event_type in atts.items():
         if event_type != 'event':
@@ -24,22 +26,14 @@ def aggregate(graph):
         event_neighbors = graph[event]
         user = None
         time = None
-        genres = []
-        movie = None
         for node in event_neighbors.keys():
             type = graph.nodes[node]['type']
             if type == 'user':
                 user = node
             if type == 'time':
                 time = node
-            if type == 'item':
-                movie = node
-            if type == 'genre':
-                genres.append(node)
-            if type == 'rating':
+            if type == 'rating' or type == 'item' or type == 'genre':
                 G.add_edge(event, node)
-        for genre in genres:
-            G.add_edge(event, movie + ' ' + genre)
         user_time = user + ' ' + time
         G.add_node(user_time, type='user-time')
         G.add_edge(event, user_time)

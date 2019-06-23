@@ -55,6 +55,7 @@ def read_movies(movies_path):
 
     return movies
 
+
 def get_day_phase(timestamp):
     dt = datetime.utcfromtimestamp(timestamp)
     if dt.hour <= 4:
