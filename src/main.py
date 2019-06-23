@@ -1,6 +1,8 @@
 import csv as csv
 import networkx as net
 import matplotlib.pyplot as plt
+
+from src.aggregate import aggregate
 from src.parser import read_movies, create_graph
 
 # NOTES:
@@ -24,6 +26,7 @@ from src.parser import read_movies, create_graph
 # - makes graph smaller, may also improve results if subgraph fits the user needs
 # - two operations - node-edge aggregate and graphs merge
 
+
 def get_top_k_movies(k, recommendations):
     cnt = 0
     for node in recommendations:
@@ -33,12 +36,14 @@ def get_top_k_movies(k, recommendations):
             print(node)
             cnt = cnt + 1
 
+
 movies = read_movies('data/movies.csv')
-graph = create_graph(movies, 'data/ratings.csv', 1000000000)
+graph = create_graph(movies, 'data/ratings.csv', 10000000000)
+
+graph = aggregate(graph)
 
 # net.draw(graph, pos=net.spring_layout(graph), with_labels=True)
 # plt.show()
-
 preferences = {
     movies[1].label: 1,
     movies[2].label: 1
