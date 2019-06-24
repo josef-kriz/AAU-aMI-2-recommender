@@ -6,7 +6,7 @@ from src.aggregate import aggregate
 from src.parser import read_movies, create_graph
 
 # NOTES:
-# - recommendation is between information retrieval and information retrieval
+# - recommendation is between information retrieval and information filtering
 # - both content and queries do vary but quite slowly
 # - recommender system helps to match users with items (books, movies, products, ...)
 # - given the profile of a user and list of items (with description) compute ranking score for each item
